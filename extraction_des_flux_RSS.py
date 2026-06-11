@@ -7,12 +7,18 @@ from time import sleep
 
 RateLimiting = 2
 
+
+def get_rss_feed(url):
+    sleep(RateLimiting)
+    rss_f = feedparser.parse(url)
+    return rss_f
+
+
 # %% zone du main
 if __name__ == '__main__':
 
     url = "https://www.cert.ssi.gouv.fr/feed/"
-    sleep(RateLimiting)
-    rss_feed = feedparser.parse(url)
+    rss_feed = get_rss_feed(url)
     print(rss_feed)
     for entry in rss_feed.entries:
         print("Titre :", entry.title)
