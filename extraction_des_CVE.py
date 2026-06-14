@@ -3,7 +3,7 @@ import re
 from time import sleep
 
 from extraction_des_flux_RSS import get_rss_feed_avis, get_rss_feed_alertes
-
+from enrichissement_des_CVE import *
 
 RateLimiting = 2
 

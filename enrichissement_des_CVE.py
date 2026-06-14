@@ -4,6 +4,19 @@ from time import sleep
 import requests
 
 
+def get_epss_score(cve_id):
+    url = f"https://api.first.org/data/v1/epss?cve={cve_id}"
+
+    response = requests.get(url)
+    data = response.json()
+
+    epss_data = data.get("data", [])
+
+    if len(epss_data) > 0:
+        return float(epss_data[0]["epss"])
+
+    return None
+
 def enrich_cve(cve_id):
     url = f"https://cveawg.mitre.org/api/cve/{cve_id}"
 
@@ -11,7 +24,8 @@ def enrich_cve(cve_id):
         response = requests.get(url)
         data = response.json()
 
-        epss_score = data.get("data", [])
+        #Extraire cve
+        epss_score = get_epss_score(cve_id)
 
         #Extraire cna
         cna = data["containers"]["cna"]
@@ -24,7 +38,7 @@ def enrich_cve(cve_id):
         cvss_score = None
 
         for metric in cna.get("metrics", []):
-            print(metric.key())
+            print(metric.keys())
             for key, value in metric.items():
                 if key.lower().startswith("cvss"):
                     cvss_score = value.get("baseScore")
@@ -33,25 +47,36 @@ def enrich_cve(cve_id):
             if cvss_score is not None:
                 break
 
+            # Cas format/other/content
+            if metric.get("format") == "CVSS":
+
+                other = metric.get("other", {})
+                content = other.get("content", {})
+
+                cvss_score = content.get("baseScore")
+
+                if cvss_score is not None:
+                    break
+
 
 
         cwe = "Non disponible"
         cwe_desc="Non disponible"
 
-        problemtype = data["containers"]["cna"].get("problemTypes", {})
+        problemtype = data["containers"]["cna"].get("problemTypes", [])
 
         if problemtype and "descriptions" in problemtype[0]:
             cwe = problemtype[0]["descriptions"][0].get("cweId", "Non disponible")
             cwe_desc=problemtype[0]["descriptions"][0].get("description", "Non disponible")
             # Extraire les produits affectés
 
-        affected = data["containers"]["cna"]["affected"]
+        affected = data["containers"]["cna"].get("affected", [])
 
-        for product in affected:
-            vendor = product["vendor"]
-            product_name = product["product"]
-            versions = [v["version"] for v in product["versions"] if v["status"] == "affected"]
-            print(f"Éditeur : {vendor}, Produit : {product_name}, Versions : {', '.join(versions)}")
+        vendor = "Non disponible"
+        product_name = "Non disponible"
+
+        vendor = affected[0].get("vendor", "Non disponible")
+        product_name = affected[0].get("product", "Non disponible")
 
         return {
             "cve_id": cve_id,
@@ -59,7 +84,7 @@ def enrich_cve(cve_id):
             "cwe": cwe,
             "cwe_desc": cwe_desc,
             "vendor": vendor,
-            "product": product,
+            "product": product_name,
             "description": description,
             "epss": epss_score
         }
