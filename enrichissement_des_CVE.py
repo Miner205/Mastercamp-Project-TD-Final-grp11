@@ -172,10 +172,14 @@ def mitre(cve_id):
 
     # Extraire les produits affectés
     affected = containers["cna"].get("affected", [])
-    vendor = affected[0].get("vendor", "Non disponible")
-    product_name = affected[0].get("product", "Non disponible")
+    vendor = "Non disponible"
+    product_name = "Non disponible"
+    if affected:
+        vendor = affected[0].get("vendor", "Non disponible")
+        product_name = affected[0].get("product", "Non disponible")
 
 
+    # EPSS
     epss_score = get_epss_score(cve_id)
 
     return cve_id, cvss_score, base_severity, cwe, cwe_desc, epss_score, description, vendor, product_name
@@ -183,7 +187,7 @@ def mitre(cve_id):
 
 # %% zone du main
 if __name__ == '__main__':
-    cve_id = "CVE-2023-50164"
+    cve_id = "CVE-2024-47177"
     mitre(cve_id)
 
     all_cve = get_all_cve()
