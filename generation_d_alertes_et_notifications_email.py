@@ -8,17 +8,23 @@ from_email = "votre_email@test.com"
 password = "mot_de_passe_test"
 
 
-def select_subscriber(subscriber_csv, data, label):
+def select_subscriber(subscriber_csv, data, label, supervised):
     subscribers = pd.read_csv(subscriber_csv)
     for report_name, report in data.groupby("ID_ANSSI"):
         email_level = 0
         last_index = 0
         for index, row in report.iterrows():
             last_index = index
-            if label[index] == 1:
-                email_level = 2
-            elif email_level != 2 and label[index] == 0:
-                email_level = 1
+            if supervised is True:
+                if label[index] == 2:
+                    email_level = 2
+                elif email_level != 2 and label[index] == 1:
+                    email_level = 1
+            else:
+                if label[index] == 1:
+                    email_level = 2
+                elif email_level != 2 and label[index] == 0:
+                    email_level = 1
         for index, subscriber in subscribers.iterrows():
             if subscriber["organization"] == report["Éditeur"][last_index] and subscriber["warning level"] <= email_level:
                 send_email(subscriber["email"], report["Éditeur"][last_index] + " " + report["Type"][last_index] + " CVE niveau " + str(email_level), report["Titre_ANSSI"][last_index] + "\n" + report["Lien_ANSSI"][last_index])
@@ -40,5 +46,6 @@ def send_email(to_email, subject, body):
 
 if __name__ == '__main__':
     #prepared_data, predicted_label = do_knn_classification(False)
+    #select_subscriber("subscibers.csv", prepared_data, predicted_label, True)
     prepared_data, predicted_label = do_kmeans(False)
-    select_subscriber("subscibers.csv", prepared_data, predicted_label)
+    select_subscriber("subscibers.csv", prepared_data, predicted_label, False)
