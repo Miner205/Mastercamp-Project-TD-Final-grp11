@@ -30,9 +30,9 @@ def do_knn_classification(display):
     y_pred = model.predict(test_data[["CVSS", "EPSS"]])
 
     if display is True:
-        plt.scatter(x_training_data["CVSS"], x_training_data["EPSS"], c=y_training_data, cmap="berlin")
+        plt.scatter(x_training_data["CVSS"], x_training_data["EPSS"], c=y_training_data, cmap="brg")
         plt.show()
-        plt.scatter(test_data["CVSS"], test_data["EPSS"], c=y_pred, cmap="berlin")
+        plt.scatter(test_data["CVSS"], test_data["EPSS"], c=y_pred, cmap="brg")
         plt.show()
 
     return test_data, y_pred
@@ -51,9 +51,9 @@ def do_kmeans(display):
     y_pred = model.predict(test_data[["CVSS", "EPSS"]])
 
     if display is True:
-        plt.scatter(x_training_data["CVSS"], x_training_data["EPSS"], c=y_training_data, cmap="berlin")
+        plt.scatter(x_training_data["CVSS"], x_training_data["EPSS"], c=y_training_data, cmap="brg")
         plt.show()
-        plt.scatter(test_data["CVSS"], test_data["EPSS"], c=y_pred, cmap="berlin")
+        plt.scatter(test_data["CVSS"], test_data["EPSS"], c=y_pred, cmap="brg")
         plt.show()
 
     return test_data, y_pred
