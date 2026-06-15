@@ -3,7 +3,7 @@ import requests
 
 from extraction_des_CVE import get_all_cve
 
-RateLimiting = 0.2
+RateLimiting = 2
 
 
 def get_epss_score(cve_id):

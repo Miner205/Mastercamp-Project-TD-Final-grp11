@@ -1,6 +1,8 @@
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cluster import KMeans
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 
