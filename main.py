@@ -32,7 +32,7 @@ print(
 
 
 # Avis
-for entry in rss_feed_avis.entries[:10]:
+for entry in rss_feed_avis.entries:
 
     '''if cve in existing_cves:
         continue'''
@@ -55,7 +55,7 @@ for entry in rss_feed_avis.entries[:10]:
         new_data.append(new_row)
 
 # Alertes
-for entry in rss_feed_alertes.entries[:10]:
+for entry in rss_feed_alertes.entries:
 
         '''if cve in existing_cves:
             continue'''

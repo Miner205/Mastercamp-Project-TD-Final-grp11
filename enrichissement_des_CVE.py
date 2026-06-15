@@ -139,38 +139,57 @@ def mitre(cve_id):
     if pre_cvss_score and (pre_cvss_score[0].get("cvssV3_1", None) or pre_cvss_score[0].get("cvssV3_0", None) or pre_cvss_score[0].get("cvssV4_0", None)):
         pre_cvss_score = pre_cvss_score[0]
     else:
-        pre_cvss_score = containers["adp"][0].get("metrics", [])
-        if not pre_cvss_score: #and len(containers["adp"])>1
-            for i in range(1, len(containers["adp"])):
-                pre_cvss_score = containers["adp"][i].get("metrics", [])
-                if pre_cvss_score:
-                    break
-        if pre_cvss_score:
-            pre_cvss_score = pre_cvss_score[0]
+        if containers.get("adp", None):
+            pre_cvss_score = containers["adp"][0].get("metrics", [])
+            if not pre_cvss_score: #and len(containers["adp"])>1
+                for i in range(1, len(containers["adp"])):
+                    pre_cvss_score = containers["adp"][i].get("metrics", [])
+                    if pre_cvss_score:
+                        break
+            if pre_cvss_score:
+                pre_cvss_score = pre_cvss_score[0]
 
-    cvss_score = pre_cvss_score.get("cvssV3_1", None)
     base_severity = None
-    if cvss_score is None:
-        cvss_score = pre_cvss_score.get("cvssV3_0", None)
-    if cvss_score is None:
-        cvss_score = pre_cvss_score.get("cvssV4_0", None)
-    if cvss_score is not None:
-        base_severity = cvss_score["baseSeverity"]
-        cvss_score = cvss_score["baseScore"]
+    if pre_cvss_score:
+        cvss_score = pre_cvss_score.get("cvssV3_1", None)
+        if cvss_score is None:
+            cvss_score = pre_cvss_score.get("cvssV3_0", None)
+        if cvss_score is None:
+            cvss_score = pre_cvss_score.get("cvssV4_0", None)
+        if cvss_score is None:
+            pre_cvss_score = containers["cna"].get("metrics", [])
+            if pre_cvss_score and len(pre_cvss_score)>1:
+                for i in range(1, len(pre_cvss_score)):
+                    if (pre_cvss_score[i].get("cvssV3_1", None) or pre_cvss_score[i].get("cvssV3_0", None) or pre_cvss_score[i].get("cvssV4_0", None)):
+                        pre_cvss_score = pre_cvss_score[i]
+            if pre_cvss_score:
+                cvss_score = pre_cvss_score.get("cvssV3_1", None)
+                if cvss_score is None:
+                    cvss_score = pre_cvss_score.get("cvssV3_0", None)
+                if cvss_score is None:
+                    cvss_score = pre_cvss_score.get("cvssV4_0", None)
+            else:
+                cvss_score = None
+        if cvss_score is not None:
+            base_severity = cvss_score["baseSeverity"]
+            cvss_score = cvss_score["baseScore"]
+        else:
+            print("!!!! cve with no cvss ?? !!!!")
+            for k, v in containers.items():
+                print("key:", k, "; val:", v)
+            print()
+            for k, v in pre_cvss_score.items():
+                print("key:", k, "; val:", v)
+            print()
     else:
-        print("!!!! cve with no cvss ?? !!!!")
-        for k, v in containers.items():
-            print("key:", k, "; val:", v)
-        print()
-        for k, v in pre_cvss_score.items():
-            print("key:", k, "; val:", v)
-        print()
+        cvss_score = None
 
     # CWE
     cwe = cwe_desc = None
     problem_type = containers["cna"].get("problemTypes", [])
     if not problem_type or (not problem_type[0]["descriptions"][0].get("cweId", None)):
-        problem_type = containers["adp"][0].get("problemTypes", [])
+        if containers.get("adp", None):
+            problem_type = containers["adp"][0].get("problemTypes", [])
     if problem_type:
         first_cwe = problem_type[0]  ##pour l'instant on fait que le 1er
         cwe = first_cwe["descriptions"][0].get("cweId", None)
@@ -214,7 +233,7 @@ def mitre(cve_id):
 
 # %% zone du main
 if __name__ == '__main__':
-    cve_id = "CVE-2025-15467"
+    cve_id = "CVE-2025-68161"
     mitre(cve_id)
 
     all_cve = get_all_cve()
