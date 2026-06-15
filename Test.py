@@ -1,21 +1,12 @@
 import pandas as pd
-import requests
-from pprint import pprint
 from enrichissement_des_CVE import *
-
-df=pd.read_csv("cve_dataset.csv")
-
-
-
-import pandas as pd
-import requests
 from pprint import pprint
 
-df = pd.read_csv("cve_dataset.csv")
+df = pd.read_csv("our_dataset.csv")
 
-missing = df[df["cvss"].isna()]
+missing = df[df["CVSS"].isna()]
 
-for cve in missing["cve_id"].header(10):
+for cve in missing["CVE"].header(10):
 
     print("\n", cve)
 

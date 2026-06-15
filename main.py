@@ -1,11 +1,16 @@
 import pandas as pd
 import os
+from extraction_des_flux_RSS import *
 from extraction_des_CVE import *
 from enrichissement_des_CVE import *
 
-CSV_FILE = "cve_dataset.csv"
 
-if os.path.exists(CSV_FILE):
+# Pour créer le csv :
+
+
+CSV_FILE = "our_dataset.csv"
+
+'''if os.path.exists(CSV_FILE):
     df = pd.read_csv(CSV_FILE)
 else:
     df = pd.DataFrame()
@@ -13,42 +18,74 @@ else:
 existing_cves = set()
 
 if not df.empty:
-    existing_cves = set(df["cve_id"])
+    existing_cves = set(df["CVE"])'''
 
 new_data = []
 
-rss_feed = get_rss_feed_avis()
-url = rss_feed.entries[0].link
+rss_feed_avis = get_rss_feed_avis()
+rss_feed_alertes = get_rss_feed_alertes()
 
-test = get_cve(url)
-print(test)
+print(
+    f"# It will take {(len(rss_feed_avis.entries) + len(rss_feed_avis.entries)) * RateLimiting}s to retrieve all CVEs from all entries.")
+#print(
+ #       f"# It will take {(len(all_cve) * RateLimiting) / 60}min to do MITRE and FIRST on all CVEs.")
 
-all_cve = get_all_cve()
-print(all_cve)
 
+# Avis
+for entry in rss_feed_avis.entries[:10]:
 
-for cve in all_cve:
+    '''if cve in existing_cves:
+        continue'''
 
-    if cve in existing_cves:
-        continue
+    url = entry.link
+    cves = get_cve(url)
 
-    print(f"Nouvelle CVE : {cve}")
+    for cve in cves:
 
-    enriched_data = enrich_cve(cve)
+        new_row = {
+            "ID_ANSSI": entry.link[34:-1],
+            "Titre_ANSSI": str(entry.title).split(" (")[0],
+            "Type": "Avis",  # Avis ou Alerte
+            "Date": entry.published[5:-15],
+            "Lien_ANSSI": entry.link
+        }
 
-    if enriched_data is not None:
-        new_data.append(enriched_data)
+        new_row["CVE"], new_row["CVSS"], new_row["Base_Severity"], new_row["CWE"], new_row["CWE_description"], new_row["EPSS"], new_row["CVE_description"], new_row["Éditeur"], new_row["Produit"] = mitre(cve)
+
+        new_data.append(new_row)
+
+# Alertes
+for entry in rss_feed_alertes.entries[:10]:
+
+        '''if cve in existing_cves:
+            continue'''
+
+        url = entry.link
+        cves = get_cve(url)
+
+        for cve in cves:
+            new_row = {
+                "ID_ANSSI": entry.link[36:-1],
+                "Titre_ANSSI": str(entry.title).split(" (")[0],
+                "Type": "Alerte",  # Avis ou Alerte
+                "Date": entry.published[5:-15],
+                "Lien_ANSSI": entry.link
+            }
+
+            new_row["CVE"], new_row["CVSS"], new_row["Base_Severity"], new_row["CWE"], new_row["CWE_description"], new_row[
+                "EPSS"], new_row["CVE_description"], new_row["Éditeur"], new_row["Produit"] = mitre(cve)
+
+            new_data.append(new_row)
+
 
 if new_data:
 
-    new_df = pd.DataFrame(new_data)
+    '''new_df = pd.DataFrame(new_data)
 
     df = pd.concat(
         [df, new_df],
         ignore_index=True
-    )
+    )'''
+    df = pd.DataFrame(new_data)
 
-    df.to_csv(
-        CSV_FILE,
-        index=False
-    )
+    df.to_csv(CSV_FILE, index=False)

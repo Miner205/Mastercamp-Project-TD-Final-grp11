@@ -3,7 +3,6 @@ import re
 from time import sleep
 
 from extraction_des_flux_RSS import get_rss_feed_avis, get_rss_feed_alertes
-from enrichissement_des_CVE import *
 
 RateLimiting = 2
 
@@ -64,14 +63,3 @@ if __name__ == '__main__':
 
     all_cve = get_all_cve()
     print(all_cve)
-
-    enriched_data = []
-
-    for cve in all_cve:
-        epss = get_epss_score(cve)
-
-        enriched_data.append({
-            "cve_id": cve,
-            "epss": epss
-        })
-    print(enriched_data)

@@ -29,10 +29,13 @@ if __name__ == '__main__':
     rss_feed = get_rss_feed(url)
     print(rss_feed)
     for entry in rss_feed.entries:
-        print("Titre :", entry.title)
+        print("Titre :", str(entry.title).split(" (")[0])
         print("Description:", entry.description)
         print("Lien :", entry.link)
-        print("Date :", entry.published)
+        print("Date :", entry.published[5:-15])
+        print(entry.link[34:-1]) #avis
+        #print(entry.link[36:-1]) #alerte
+        print()
 
     """for k, v in rss_feed.items():
         print("key:", k, "; val:", v)"""
