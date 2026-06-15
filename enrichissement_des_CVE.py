@@ -108,11 +108,11 @@ def mitre(cve_id):
             cvss_score = pre_cvss_score.get("cvssV4_0", None)
         if cvss_score is None:
             pre_cvss_score = containers["cna"].get("metrics", [])
-            if pre_cvss_score and len(pre_cvss_score)>1:
+            if pre_cvss_score and len(pre_cvss_score) > 1:
                 for i in range(1, len(pre_cvss_score)):
                     if (pre_cvss_score[i].get("cvssV3_1", None) or pre_cvss_score[i].get("cvssV3_0", None) or pre_cvss_score[i].get("cvssV4_0", None)):
                         pre_cvss_score = pre_cvss_score[i]
-            if pre_cvss_score:
+            if pre_cvss_score and not (type(pre_cvss_score) is list):
                 cvss_score = pre_cvss_score.get("cvssV3_1", None)
                 if cvss_score is None:
                     cvss_score = pre_cvss_score.get("cvssV3_0", None)
@@ -183,7 +183,7 @@ def mitre(cve_id):
 
 # %% zone du main
 if __name__ == '__main__':
-    cve_id = "CVE-2026-23202"
+    cve_id = "CVE-2023-50164"
     mitre(cve_id)
 
     all_cve = get_all_cve()
