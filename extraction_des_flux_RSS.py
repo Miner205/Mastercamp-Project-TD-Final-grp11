@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     url = "https://www.cert.ssi.gouv.fr/avis/feed/"
     rss_feed = get_rss_feed(url)
-    print(rss_feed)
+    #print(rss_feed)
     for entry in rss_feed.entries:
         print("Titre :", str(entry.title).split(" (")[0])
         print("Description:", entry.description)

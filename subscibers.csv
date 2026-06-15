@@ -1,0 +1,68 @@
+name,email,organization,warning level
+Nora Lambert,nora.lambert@example.com,Cisco,0
+Lucas Perrin,lucas.perrin@example.com,SAP_SE,1
+Emma Roche,emma.roche@example.com,Apache Software Foundation,2
+Hugo Martin,hugo.martin@example.com,VMware,0
+Camille Bernard,camille.bernard@example.com,OpenSSL,1
+Jules Moreau,jules.moreau@example.com,DALIBO,2
+Léa Simon,lea.simon@example.com,Spring,0
+Nathan Dubois,nathan.dubois@example.com,Adobe,1
+Sarah Petit,sarah.petit@example.com,Non disponible,2
+Antoine Leroy,antoine.leroy@example.com,Arm,0
+Clara Girard,clara.girard@example.com,TYPO3,1
+Maxime Roux,maxime.roux@example.com,Ivanti,2
+Julie Chevalier,julie.chevalier@example.com,ivanti,0
+Paul Garnier,paul.garnier@example.com,Fortinet,1
+Manon Henry,manon.henry@example.com,Google,2
+Alexandre Faure,alexandre.faure@example.com,Microsoft,0
+Laura Robin,laura.robin@example.com,Oracle Corporation,1
+Mathieu Blanc,mathieu.blanc@example.com,Linux,2
+Élodie Gautier,elodie.gautier@example.com,Erlang,0
+Thomas Collet,thomas.collet@example.com,BINGOS,1
+Anaïs Mercier,anais.mercier@example.com,golang.org/x/crypto,2
+Bastien Renard,bastien.renard@example.com,PMQS,0
+Louise Fontaine,louise.fontaine@example.com,freedesktop,1
+Valentin Muller,valentin.muller@example.com,FreeIPMI,2
+Zoé Perrier,zoe.perrier@example.com,GitLab,0
+Victor Arnaud,victor.arnaud@example.com,Palo Alto Networks,1
+Chloé Bonnet,chloe.bonnet@example.com,MongoDB,2
+Adrien Lemoine,adrien.lemoine@example.com,Splunk,0
+Mélanie Charrier,melanie.charrier@example.com,tox-dev,1
+Florian Vasseur,florian.vasseur@example.com,Go toolchain,2
+Quentin Caron,quentin.caron@example.com,open-telemetry,1
+Maëlle Gros,maelle.gros@example.com,Python Packaging Authority,2
+Damien Millet,damien.millet@example.com,Go standard library,0
+Justine Payet,justine.payet@example.com,Cloudflare,1
+Corentin Roche,corentin.roche@example.com,MongoDB Inc,2
+Pauline Fleury,pauline.fleury@example.com,pyca,0
+Yanis Tessier,yanis.tessier@example.com,aio-libs,1
+Marine Giraud,marine.giraud@example.com,pyasn1,2
+Tristan Perrot,tristan.perrot@example.com,pypa,0
+Lucie Bourgeois,lucie.bourgeois@example.com,Red Hat,1
+Kevin Masson,kevin.masson@example.com,OALDERS,2
+Charlotte Picard,charlotte.picard@example.com,HMBRAND,0
+Baptiste Rolland,baptiste.rolland@example.com,Moxa,1
+Emma Renaud,emma.renaud@example.com,AMD,2
+Julien Michaud,julien.michaud@example.com,itsourcecode,0
+Océane Legrand,oceane.legrand@example.com,Canonical,1
+Arthur Barbier,arthur.barbier@example.com,OpenStack,2
+Inès Delorme,ines.delorme@example.com,IBM,0
+Louis Guichard,louis.guichard@example.com,axios,1
+Clément Pons,clement.pons@example.com,isaacs,2
+Alice Menard,alice.menard@example.com,F5,0
+Raphaël Noel,raphael.noel@example.com,lldpd,1
+Céline Brun,celine.brun@example.com,NLnet Labs,2
+Noah Aubert,noah.aubert@example.com,vim,0
+Eva Colin,eva.colin@example.com,SQLite,1
+Gabriel Barre,gabriel.barre@example.com,elixir-lang,2
+Margaux Richard,margaux.richard@example.com,Python Software Foundation,0
+Tom Lambert,tom.lambert@example.com,gitoxide,1
+Anaëlle Robin,anaelle.robin@example.com,Citrix,2
+Benjamin Marchand,benjamin.marchand@example.com,Exim,0
+Clara Vasseur,clara.vasseur@example.com,checkpoint,1
+Nathan Bonnet,nathan.bonnet@example.com,SonicWall,2
+Sarah Muller,sarah.muller@example.com,OpenPrinting,0
+Mathis Fontaine,mathis.fontaine@example.com,Roundcube,1
+Lina Chevalier,lina.chevalier@example.com,NetScaler,2
+Victor Mercier,victor.mercier@example.com,Meta,0
+Arthur Donnat,arthurdonnat05@gmail.com,Adobe,1
