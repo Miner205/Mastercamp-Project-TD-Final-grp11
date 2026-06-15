@@ -7,6 +7,7 @@ RateLimiting = 2
 
 
 def get_epss_score(cve_id):
+    """API EPSS de FIRST : Permet d'obtenir la probabilité d'exploitation de la vulnérabilité."""
     url = f"https://api.first.org/data/v1/epss?cve={cve_id}"
 
     response = requests.get(url)
@@ -18,25 +19,8 @@ def get_epss_score(cve_id):
 
     return None
 
-def enrich_cve(cve_id):
-    url = f"https://cveawg.mitre.org/api/cve/{cve_id}"
 
-    try:
-        sleep(RateLimiting / 2)
-        response = requests.get(url)
-        data = response.json()
-
-        #Extraire cve
-        epss_score = get_epss_score(cve_id)
-
-        #Extraire cna
-        cna = data["containers"]["cna"]
-
-        # Extraire la description
-        description = data["containers"]["cna"]["descriptions"][0]["value"]
-        # Extraire le score CVSS
-        #ATTENTION tous les CVE ne contiennent pas nécessairement ce champ, gérez l’exception,
-        #ou peut etre au lieu de cvssV3_0 c’est cvssV3_1 ou autre clé
+'''
         cvss_score = None
 
         for metric in cna.get("metrics", []):
@@ -58,41 +42,7 @@ def enrich_cve(cve_id):
                 cvss_score = content.get("baseScore")
 
                 if cvss_score is not None:
-                    break
-
-
-
-        cwe = "Non disponible"
-        cwe_desc="Non disponible"
-
-        problemtype = data["containers"]["cna"].get("problemTypes", [])
-
-        if problemtype and "descriptions" in problemtype[0]:
-            cwe = problemtype[0]["descriptions"][0].get("cweId", "Non disponible")
-            cwe_desc=problemtype[0]["descriptions"][0].get("description", "Non disponible")
-            # Extraire les produits affectés
-
-        affected = data["containers"]["cna"].get("affected", [])
-
-        vendor = "Non disponible"
-        product_name = "Non disponible"
-
-        vendor = affected[0].get("vendor", "Non disponible")
-        product_name = affected[0].get("product", "Non disponible")
-
-        return {
-            "cve_id": cve_id,
-            "cvss": cvss_score,
-            "cwe": cwe,
-            "cwe_desc": cwe_desc,
-            "vendor": vendor,
-            "product": product_name,
-            "description": description,
-            "epss": epss_score
-        }
-    except Exception as e:
-        print(f"Erreur pour {cve_id}: {e}")
-        return None
+                    break'''
 
 
 def mitre(cve_id):
@@ -178,9 +128,9 @@ def mitre(cve_id):
             for k, v in containers.items():
                 print("key:", k, "; val:", v)
             print()
-            for k, v in pre_cvss_score.items():
+            '''for k, v in pre_cvss_score.items():
                 print("key:", k, "; val:", v)
-            print()
+            print()'''
     else:
         cvss_score = None
 
@@ -233,7 +183,7 @@ def mitre(cve_id):
 
 # %% zone du main
 if __name__ == '__main__':
-    cve_id = "CVE-2025-68161"
+    cve_id = "CVE-2026-23202"
     mitre(cve_id)
 
     all_cve = get_all_cve()

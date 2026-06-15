@@ -25,8 +25,8 @@ new_data = []
 rss_feed_avis = get_rss_feed_avis()
 rss_feed_alertes = get_rss_feed_alertes()
 
-print(
-    f"# It will take {(len(rss_feed_avis.entries) + len(rss_feed_avis.entries)) * RateLimiting}s to retrieve all CVEs from all entries.")
+#print(
+ #   f"# It will take {(len(rss_feed_avis.entries) + len(rss_feed_avis.entries)) * RateLimiting}s to retrieve all CVEs from all entries.")
 #print(
  #       f"# It will take {(len(all_cve) * RateLimiting) / 60}min to do MITRE and FIRST on all CVEs.")
 
